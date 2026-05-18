@@ -7,14 +7,13 @@ type AuthFixtures = {
 
 const test = base.extend<AuthFixtures> ({
     loginPage: async ({page}, use) => {
-        await page.goto(urls.login);
-        await expect(page.getByAltText('company-branding')).toBeVisible();
-        await page.getByRole('textbox', {name: 'username'}).fill(creds.employee.username);
-        await page.getByRole('textbox', {name: 'password'}).fill(creds.employee.password);
-        await page.getByRole('button', {name: 'Login'}).click();
-        await expect(page.getByAltText('client brand banner')).toBeVisible();
+        await page.goto(urls.launch_url);
+        await expect(page).toHaveTitle(/Automation Exercise/);
         await use(page);
     }
 })
 
 export {test, expect}
+
+//https://automationexercise.com/
+///for automation project
