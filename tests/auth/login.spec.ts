@@ -25,3 +25,5 @@ test('Sign up with esisting email', async ({ loginPage }) => {
     
     await loginPage.waitForTimeout(10000);
 });
+
+//checking green box
