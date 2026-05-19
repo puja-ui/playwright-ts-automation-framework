@@ -17,5 +17,5 @@ export class SignUpLoginPage {
         this.existingEmailError = page.locator('form[action="/signup"] p');
         this.enterAccountInfoHeader = page.locator('//b[text()="Enter Account Information"]');
     }
-    
+    //TODO: Create unified getElementWithattributes method to avoid creating locators for each element and use it in the tests
 }
