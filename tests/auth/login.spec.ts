@@ -1,5 +1,7 @@
 import { test, expect } from '../../testFixtures';
 import { SignUpLoginPage } from '../../pages/signUpLogin.page';
+import { faker } from '@faker-js/faker';
+
 
 let signUpLoginPage: SignUpLoginPage;
 
@@ -29,7 +31,7 @@ test('Sign up with existing email', async ({ signupPage }) => {
 });
 
 test('Mandatory field Validations', async ({ signupPage }) => {
-    await signupPage.locator('[data-qa="signup-button"]').click();
+    await signUpLoginPage.signUpButton.click();
     let emptyFieldValidationMessage = await signUpLoginPage.nameField.evaluate((el: HTMLInputElement) => el.validationMessage);
     expect(emptyFieldValidationMessage).toBe('Please fill in this field.');
 
@@ -38,31 +40,31 @@ test('Mandatory field Validations', async ({ signupPage }) => {
     emptyFieldValidationMessage = await signUpLoginPage.emailField.evaluate((el: HTMLInputElement) => el.validationMessage);
     expect(emptyFieldValidationMessage).toBe('Please fill in this field.');
 
-
     await signupPage.waitForTimeout(10000);
 });
 
 test('Sign up happy flow', async ({ signupPage }) => {
     await signUpLoginPage.nameField.fill('Test User');
-    await signUpLoginPage.emailField.fill('janedoe1@mailsac.com');
+    await signUpLoginPage.emailField.fill(faker.internet.email());
+    await signupPage.pause();
     await signUpLoginPage.signUpButton.click();
 
     await signUpLoginPage.enterAccountInfoHeader.waitFor({ state: 'visible', timeout: 5000 });
-    await signupPage.locator('input[value="Mrs"]').click();
-    await signupPage.locator('[data-qa="password"]').fill('testpassword');
-    await signupPage.locator('[data-qa="days"]').selectOption('10');
-    await signupPage.locator('[data-qa="months"]').selectOption('May');
-    await signupPage.locator('[data-qa="years"]').selectOption('1990');
-    await signupPage.locator('#first_name').fill('Jane');
-    await signupPage.locator('#last_name').fill('Doe');
-    await signupPage.locator('#address1').fill('123 Main St');
-    await signupPage.locator('#country').selectOption('United States');
-    await signupPage.locator('#state').fill('California');
-    await signupPage.locator('#city').fill('Los Angeles');
-    await signupPage.locator('#zipcode').fill('90001');
-    await signupPage.locator('#mobile_number').fill('1234567890');
-    await signupPage.locator('[data-qa="create-account"]').click();
-    await expect(signupPage.locator('//b[text()="Account Created!"]')).toBeVisible({ timeout: 20000 });
+    await (await signUpLoginPage.selectTitle('Mrs')).click();
+    await signUpLoginPage.passwordField.fill('testpassword');
+    await signUpLoginPage.daysDropdown.selectOption('10');
+    await signUpLoginPage.monthsDropdown.selectOption('May');
+    await signUpLoginPage.yearsDropdown.selectOption('1990');
+    await signUpLoginPage.firstNameField.fill('Jane');
+    await signUpLoginPage.lastNameField.fill('Doe');
+    await signUpLoginPage.addressField.fill('123 Main St');
+    await signUpLoginPage.countryDropdown.selectOption('United States');
+    await signUpLoginPage.stateField.fill('California');
+    await signUpLoginPage.cityField.fill('Los Angeles');
+    await signUpLoginPage.zipcodeField.fill('90001');
+    await signUpLoginPage.mobileNumberField.fill('1234567890');
+    await signUpLoginPage.createAccountButton.click();
+    await expect(signUpLoginPage.accountCreatedHeader).toBeVisible({ timeout: 20000 });
 
     await signupPage.waitForTimeout(10000);
 });

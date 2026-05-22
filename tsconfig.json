@@ -45,7 +45,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",                          /* Target modern ECMAScript features */
-    "module": "commonjs",                        /* Standard module resolution */
+    "module": "esnext",                        /* Standard module resolution */
     "moduleResolution": "node",                  /* Resolve modules using Node.js style */
     "strict": true,                              /* Enable all strict type-checking options */
     "esModuleInterop": true,                     /* Enables emit interoperability */
