@@ -1,5 +1,5 @@
 import {test as base, expect, Page} from '@playwright/test';
-import {urls, creds} from './utils/auth';
+import {urls} from './auth';
 
 type AuthFixtures = {
     loginPage: Page;

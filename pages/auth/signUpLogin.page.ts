@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test';
-import { UtilsPage } from '../utils/page';
+import { UtilsPage } from '../../utils/page';
 
 export class SignUpLoginPage {
 
