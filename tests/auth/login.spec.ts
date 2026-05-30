@@ -18,7 +18,6 @@ test('Sign up with wrong email', async ({ signupPage }) => {
         (el: HTMLInputElement) => el.validationMessage
     );
     expect(validationMessage).toBe(SIGNUP_LOGIN_DATA.errorTexts.noAtinEmail);
-    // await signupPage.waitForTimeout(10000);
 });
 
 test('Sign up with existing email', async ({ signupPage }) => {
@@ -27,8 +26,6 @@ test('Sign up with existing email', async ({ signupPage }) => {
     await signUpLoginPage.signUpButton.click();
 
     await expect(signUpLoginPage.existingEmailError).toHaveText(SIGNUP_LOGIN_DATA.errorTexts.emailAlreadyExists, { timeout: 5000 });
-
-    // await signupPage.waitForTimeout(10000);
 });
 
 test('Mandatory field Validations', async ({ signupPage }) => {
@@ -40,8 +37,6 @@ test('Mandatory field Validations', async ({ signupPage }) => {
     await signUpLoginPage.signUpButton.click();
     emptyFieldValidationMessage = await signUpLoginPage.emailField.evaluate((el: HTMLInputElement) => el.validationMessage);
     expect(emptyFieldValidationMessage).toBe(SIGNUP_LOGIN_DATA.errorTexts.emptyField);
-
-    // await signupPage.waitForTimeout(10000);
 });
 
 test('Sign up happy flow', async ({ signupPage }) => {
@@ -65,8 +60,4 @@ test('Sign up happy flow', async ({ signupPage }) => {
     await signUpLoginPage.mobileNumberField.fill(faker.phone.number());
     await signUpLoginPage.createAccountButton.click();
     await expect(signUpLoginPage.accountCreatedHeader).toBeVisible({ timeout: 20000 });
-
-    // await signupPage.waitForTimeout(10000);
 });
-
-//checking green box

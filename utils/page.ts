@@ -1,10 +1,13 @@
 import { expect, Locator, type Page } from '@playwright/test';
 import { attributeType } from './typeDefinitions';
 
-
 export class UtilsPage {
+    readonly page: Page;
 
-    static getElementFromCSS(page: Page, attributeType: attributeType, attributeValue: string, htmlTag ?: keyof HTMLElementTagNameMap, innerTag ?: keyof HTMLElementTagNameMap): Locator{
+    constructor(page: Page) {
+        this.page = page;
+    }
+    getElementFromCSS(attributeType: attributeType, attributeValue: string, htmlTag ?: keyof HTMLElementTagNameMap, innerTag ?: keyof HTMLElementTagNameMap): Locator{
         let selector;
         switch (attributeType) {
             case 'data-qa':
@@ -28,6 +31,10 @@ export class UtilsPage {
         if(innerTag) {
             selector = `${selector} ${innerTag}`;
         }
-        return page.locator(selector);
+        return this.page.locator(selector);
+    }
+    async goToTab(pageName: string) {
+        await this.page.getByRole('link', { name: pageName }).click();
+        await expect(this.page.getByRole('link', { name: pageName })).toHaveCSS('color', 'rgb(255, 165, 0)', {timeout: 10000})
     }
 }
