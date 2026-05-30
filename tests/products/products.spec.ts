@@ -2,7 +2,6 @@
 import { test, expect } from '../../utils/testFixtures';
 import { ProductsPage } from '../../pages/products/products.page';
 import { PRODUCTS, PRODUCT_DETAILS } from '../../utils/testData';
-import { CartPage } from '../../pages/cart/cart.page';
 /**
  * Test cases to cover:
 
