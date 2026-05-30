@@ -1,5 +1,6 @@
 import { expect, type Page } from '@playwright/test';
 import { UtilsPage } from '../../utils/page';
+import { creds } from '../../utils/auth';
 
 export class SignUpLoginPage {
 
@@ -24,6 +25,7 @@ export class SignUpLoginPage {
     readonly mobileNumberField : ReturnType<Page['locator']>;
     readonly createAccountButton : ReturnType<Page['locator']>;
     readonly accountCreatedHeader : ReturnType<Page['locator']>;
+    readonly automationExerciseLogo : ReturnType<Page['locator']>;
 
     constructor(page: Page) {
         this.page = page;
@@ -47,10 +49,16 @@ export class SignUpLoginPage {
         this.mobileNumberField = page.getByLabel('Mobile Number');
         this.createAccountButton = page.getByRole('button', { name: 'Create Account' });
         this.accountCreatedHeader = page.getByText('Account Created!');
+        this.automationExerciseLogo = page.getByAltText('Website for automation practice');
 
     }
 
     async selectTitle(title: 'Mr' | 'Mrs'): Promise<ReturnType<Page['locator']>> {
         return this.utils.getElementFromCSS('value', title);
+    }
+
+
+    async loginAsJaneDoe() {
+        await this.utils.login(creds.janeDoe.username, creds.janeDoe.password);
     }
 }

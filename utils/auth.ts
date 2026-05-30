@@ -9,9 +9,9 @@ export const urls = {
 }
 
 export const creds = {
-    admin: {
-        username: 'testuser',
-        password: 'testpassword',
+    janeDoe: {
+        username: 'Janedoe123@mailsac.com',
+        password: 'Test@1234',
     },
     employee: {
         username: 'Admin',

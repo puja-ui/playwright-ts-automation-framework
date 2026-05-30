@@ -1,5 +1,6 @@
 import { expect, Locator, type Page } from '@playwright/test';
 import { attributeType } from './typeDefinitions';
+import { urls, creds } from './auth';
 
 export class UtilsPage {
     readonly page: Page;
@@ -36,5 +37,12 @@ export class UtilsPage {
     async goToTab(pageName: string) {
         await this.page.getByRole('link', { name: pageName }).click();
         await expect(this.page.getByRole('link', { name: pageName })).toHaveCSS('color', 'rgb(255, 165, 0)', {timeout: 10000})
+    }
+
+    async login(username: string, password: string) {
+        await this.page.goto(urls.login_signup_url);
+        await this.page.getByPlaceholder('Email Address').first().fill(username);
+        await this.page.getByPlaceholder('Password').fill(password);
+        await this.page.getByRole('button', { name: 'Login' }).click();
     }
 }

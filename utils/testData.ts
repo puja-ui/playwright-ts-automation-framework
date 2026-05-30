@@ -64,3 +64,13 @@ export const PRODUCT_DETAILS = {
     condition: 'New',
     brand: 'Polo'
 }
+
+export const ADDRESS_DETAILS = {
+    JaneDoe: {
+        name: '. Jane Doe',
+        address1: 'test',
+        cityStatePostcode: 'test test \n123456',
+        country: 'United States',
+        mobileNumber: '0987654321'
+    }
+}

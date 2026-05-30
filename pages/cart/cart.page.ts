@@ -11,6 +11,7 @@ export class CartPage extends UtilsPage {
 
     readonly cartIsEmptyMessage: ReturnType<Page['locator']>
     readonly proceedToCheckoutButton: ReturnType<Page['locator']>;
+    readonly featuredIteamsHeader: ReturnType<Page['locator']>;
 
     constructor(page: Page) {
         super(page);
@@ -18,6 +19,7 @@ export class CartPage extends UtilsPage {
 
         this.cartIsEmptyMessage = page.getByText('Cart is empty!');
         this.proceedToCheckoutButton = page.getByText('Proceed To Checkout');
+        this.featuredIteamsHeader = page.getByRole('heading', { name: 'Features Items' });
     }
     async goToCartTab() {
         await this.goToTab(PAGE_NAMES.cart);
@@ -29,7 +31,7 @@ export class CartPage extends UtilsPage {
 
     async addToCardFromlistingPage(productName: string) {
         const product = await productsPage.getProductCardByName(productName);
-        await product.getByText('Add to cart').click({ force: true });
+        await product.getByText('Add to cart').first().click({ force: true });
         await expect(productsPage.addedToCartSuccessMessage)
             .toBeVisible({ timeout: 10000 });
         await productsPage.continueShoppingButton.click();
