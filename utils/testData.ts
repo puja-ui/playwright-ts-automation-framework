@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 
 export const SIGNUP_LOGIN_DATA = {
     fieldValues: {
@@ -74,3 +75,13 @@ export const ADDRESS_DETAILS = {
         mobileNumber: '0987654321'
     }
 }
+
+export const PAYMENT = {
+    freshCard: {
+      nameOnCard: faker.person.fullName(),
+      cardNumber: faker.finance.creditCardNumber(),
+      CVC: faker.finance.creditCardCVV(),
+      expirationMonth: faker.number.int({ min: 1, max: 12 }).toString(),
+      expirationYear: faker.number.int({ min: 2028, max: 2030 }).toString(),
+    }
+  }

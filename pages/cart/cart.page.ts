@@ -11,7 +11,7 @@ export class CartPage extends UtilsPage {
 
     readonly cartIsEmptyMessage: ReturnType<Page['locator']>
     readonly proceedToCheckoutButton: ReturnType<Page['locator']>;
-    readonly featuredIteamsHeader: ReturnType<Page['locator']>;
+    readonly featuredItemsHeader: ReturnType<Page['locator']>;
 
     constructor(page: Page) {
         super(page);
@@ -19,7 +19,7 @@ export class CartPage extends UtilsPage {
 
         this.cartIsEmptyMessage = page.getByText('Cart is empty!');
         this.proceedToCheckoutButton = page.getByText('Proceed To Checkout');
-        this.featuredIteamsHeader = page.getByRole('heading', { name: 'Features Items' });
+        this.featuredItemsHeader = page.getByRole('heading', { name: 'Features Items' });
     }
     async goToCartTab() {
         await this.goToTab(PAGE_NAMES.cart);
