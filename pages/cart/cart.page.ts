@@ -1,20 +1,20 @@
 import { PAGE_NAMES } from '../../utils/testData';
-import { UtilsPage } from '../../utils/page';
-import { Page, expect } from '@playwright/test';
+import { goToTab } from '../../utils/page';
+import { Page, expect, type Locator } from '@playwright/test';
 import { ProductsPage } from '../products/products.page';
 
 
 
 let productsPage: ProductsPage;
 
-export class CartPage extends UtilsPage {
-
-    readonly cartIsEmptyMessage: ReturnType<Page['locator']>
-    readonly proceedToCheckoutButton: ReturnType<Page['locator']>;
-    readonly featuredItemsHeader: ReturnType<Page['locator']>;
+export class CartPage {
+    readonly page: Page;
+    readonly cartIsEmptyMessage: Locator;
+    readonly proceedToCheckoutButton: Locator;
+    readonly featuredItemsHeader: Locator;
 
     constructor(page: Page) {
-        super(page);
+        this.page = page;
         productsPage = new ProductsPage(page);
 
         this.cartIsEmptyMessage = page.getByText('Cart is empty!');
@@ -22,7 +22,7 @@ export class CartPage extends UtilsPage {
         this.featuredItemsHeader = page.getByRole('heading', { name: 'Features Items' });
     }
     async goToCartTab() {
-        await this.goToTab(PAGE_NAMES.cart);
+        await goToTab(this.page, PAGE_NAMES.cart);
     }
 
     async getCartItemByName(productName: string) {
@@ -31,7 +31,8 @@ export class CartPage extends UtilsPage {
 
     async addToCardFromlistingPage(productName: string) {
         const product = await productsPage.getProductCardByName(productName);
-        await product.getByText('Add to cart').first().click({ force: true });
+        await product.hover();
+        await product.locator('.overlay-content').getByText('Add to cart').click();
         await expect(productsPage.addedToCartSuccessMessage)
             .toBeVisible({ timeout: 10000 });
         await productsPage.continueShoppingButton.click();

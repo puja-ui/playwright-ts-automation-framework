@@ -41,10 +41,12 @@ test('Purchasing order - happy flow', async ({ signupPage }) => {
    await checkoutPage.verifyBillingAddress(ADDRESS_DETAILS.JaneDoe);
    await expect(await cartPage.getCartItemByName(PRODUCTS[0]))
       .toBeVisible({ timeout: 10000 });
-   await checkoutPage.placeOrderButton.click();
+   await checkoutPage.placeOrderButton.click({ timeout: 10000 });
 
    await expect(checkoutPage.paymentHeader).toBeVisible({ timeout: 10000 });
    await checkoutPage.fillPaymentDetails(PAYMENT.freshCard);
-   await expect(checkoutPage.orderConfirmationMessage).toBeVisible({ timeout: 10000 });
+   await checkoutPage.payAndConfirmOrderButton.click({ timeout: 10000 });
+
+   await expect(checkoutPage.orderConfirmationMessage).toBeVisible({ timeout: 30000 });
 
 });

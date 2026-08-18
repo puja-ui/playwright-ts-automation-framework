@@ -1,25 +1,26 @@
 import { PAGE_NAMES } from '../../utils/testData';
-import { UtilsPage } from '../../utils/page';
-import { Page } from '@playwright/test';
+import { getElementFromCSS, goToTab } from '../../utils/page';
+import { Page, type Locator } from '@playwright/test';
 
-export class ProductsPage extends UtilsPage {
+export class ProductsPage {
 
-    readonly searchProductField: ReturnType<Page['locator']>;
-    readonly searchProductButton: ReturnType<Page['locator']>
-    readonly viewProductButton: ReturnType<Page['locator']>;
-    readonly productCategory: ReturnType<Page['locator']>;
-    readonly productPrice: ReturnType<Page['locator']>;
-    readonly productAvailability: ReturnType<Page['locator']>;
-    readonly productCondition: ReturnType<Page['locator']>;
-    readonly productBrand: ReturnType<Page['locator']>;
-    readonly addtoCartButtonOnDetailsPage: ReturnType<Page['locator']>;
-    readonly addedToCartSuccessMessage: ReturnType<Page['locator']>;
-    readonly continueShoppingButton: ReturnType<Page['locator']>;
+    readonly page: Page;
+    readonly searchProductField: Locator;
+    readonly searchProductButton: Locator;
+    readonly viewProductButton: Locator;
+    readonly productCategory: Locator;
+    readonly productPrice: Locator;
+    readonly productAvailability: Locator;
+    readonly productCondition: Locator;
+    readonly productBrand: Locator;
+    readonly addtoCartButtonOnDetailsPage: Locator;
+    readonly addedToCartSuccessMessage: Locator;
+    readonly continueShoppingButton: Locator;
 
     constructor(page: Page) {
-        super(page);
+        this.page = page;
         this.searchProductField = page.getByPlaceholder('Search Product');
-        this.searchProductButton = this.getElementFromCSS('id', 'submit_search');
+        this.searchProductButton = getElementFromCSS(page, 'id', 'submit_search');
         this.viewProductButton = page.getByText('View Product');
         this.productCategory = page.locator('p').filter({ hasText: 'Category' });
         this.productPrice = page.locator('span').filter({ hasText: 'Rs.' }).nth(1);
@@ -31,7 +32,7 @@ export class ProductsPage extends UtilsPage {
         this.continueShoppingButton = page.getByRole('button', { name: 'Continue Shopping' });
     }
     async goToProductsTab() {
-        await this.goToTab(PAGE_NAMES.products);
+        await goToTab(this.page, PAGE_NAMES.products);
     }
 
     async getProductByName(productName: string) {
@@ -43,8 +44,7 @@ export class ProductsPage extends UtilsPage {
     }
 
     async getProductCardByName(productName: string) {
-        return this.getElementFromCSS('class', 'productinfo text-center', 'div')
-            .filter({ hasText: productName });
+        return this.page.locator('.single-products').filter({ hasText: productName }).first();
     }
 
 }

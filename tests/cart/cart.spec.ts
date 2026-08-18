@@ -17,7 +17,7 @@ import { PRODUCT_DETAILS, PRODUCTS } from '../../utils/testData';
     New concepts:
 
     State management across pages
-    API setup — add to cart via API, verify via UI
+    API setup — add to cart via API, verify via UI 
     Using authenticated fixture for cart tests
  */
 

@@ -1,5 +1,4 @@
 import {test as base, expect, Page} from '@playwright/test';
-import {urls} from './auth';
 
 type AuthFixtures = {
     homePage: Page;
@@ -8,7 +7,13 @@ type AuthFixtures = {
 
 const test = base.extend<AuthFixtures> ({
     homePage: async ({page}, use) => {
-        await page.goto(urls.launch_url);
+        // Block Google Ads entirely. This is much faster and completely eliminates 
+        // ad-related flakiness without needing to guess iframe names or click 'Close'.
+        await page.route('**/*googlesyndication.com/**', route => route.abort());
+        await page.route('**/*doubleclick.net/**', route => route.abort());
+        await page.route('**/*ad.doubleclick.net/**', route => route.abort());
+
+        await page.goto('/');
         await expect(page).toHaveTitle(/Automation Exercise/);
         await expect(page.getByAltText('Website for automation practice')).toBeVisible({timeout: 20000});
         await use(page);

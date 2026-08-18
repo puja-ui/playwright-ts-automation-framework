@@ -1,44 +1,42 @@
-import { expect, type Page } from '@playwright/test';
-import { UtilsPage } from '../../utils/page';
+import { expect, type Page, type Locator } from '@playwright/test';
+import { getElementFromCSS, login } from '../../utils/page';
 import { creds } from '../../utils/auth';
 
 export class SignUpLoginPage {
 
     readonly page: Page;
-    readonly utils: UtilsPage;
-    readonly nameField: ReturnType<Page['locator']>;
-    readonly emailField: ReturnType<Page['locator']>;
-    readonly signUpButton: ReturnType<Page['locator']>;
-    readonly existingEmailError: ReturnType<Page['locator']>;
-    readonly enterAccountInfoHeader: ReturnType<Page['locator']>
-    readonly daysDropdown : ReturnType<Page['locator']>;
-    readonly monthsDropdown : ReturnType<Page['locator']>; 
-    readonly yearsDropdown : ReturnType<Page['locator']>;
-    readonly zipcodeField : ReturnType<Page['locator']>;
-    readonly passwordField : ReturnType<Page['locator']>;
-    readonly firstNameField : ReturnType<Page['locator']>;
-    readonly lastNameField : ReturnType<Page['locator']>;
-    readonly addressField : ReturnType<Page['locator']>;
-    readonly countryDropdown : ReturnType<Page['locator']>;
-    readonly stateField : ReturnType<Page['locator']>;
-    readonly cityField : ReturnType<Page['locator']>;
-    readonly mobileNumberField : ReturnType<Page['locator']>;
-    readonly createAccountButton : ReturnType<Page['locator']>;
-    readonly accountCreatedHeader : ReturnType<Page['locator']>;
-    readonly automationExerciseLogo : ReturnType<Page['locator']>;
+    readonly nameField: Locator;
+    readonly emailField: Locator;
+    readonly signUpButton: Locator;
+    readonly existingEmailError: Locator;
+    readonly enterAccountInfoHeader: Locator;
+    readonly daysDropdown : Locator;
+    readonly monthsDropdown : Locator; 
+    readonly yearsDropdown : Locator;
+    readonly zipcodeField : Locator;
+    readonly passwordField : Locator;
+    readonly firstNameField : Locator;
+    readonly lastNameField : Locator;
+    readonly addressField : Locator;
+    readonly countryDropdown : Locator;
+    readonly stateField : Locator;
+    readonly cityField : Locator;
+    readonly mobileNumberField : Locator;
+    readonly createAccountButton : Locator;
+    readonly accountCreatedHeader : Locator;
+    readonly automationExerciseLogo : Locator;
 
     constructor(page: Page) {
         this.page = page;
-        this.utils = new UtilsPage(page);
         this.nameField = page.getByPlaceholder('Name');
-        this.emailField = this.utils.getElementFromCSS('data-qa', 'signup-email');
-        this.signUpButton = this.utils.getElementFromCSS('data-qa', 'signup-button');
-        this.existingEmailError = this.utils.getElementFromCSS('action', '/signup', 'form', 'p');
+        this.emailField = getElementFromCSS(page, 'data-qa', 'signup-email');
+        this.signUpButton = getElementFromCSS(page, 'data-qa', 'signup-button');
+        this.existingEmailError = getElementFromCSS(page, 'action', '/signup', 'form', 'p');
         this.enterAccountInfoHeader = page.getByRole('heading', { name: 'Enter Account Information' });
-        this.daysDropdown = this.utils.getElementFromCSS('data-qa', 'days');
-        this.monthsDropdown = this.utils.getElementFromCSS('data-qa', 'months');
-        this.yearsDropdown = this.utils.getElementFromCSS('data-qa', 'years');
-        this.zipcodeField = this.utils.getElementFromCSS('data-qa', 'zipcode');
+        this.daysDropdown = getElementFromCSS(page, 'data-qa', 'days');
+        this.monthsDropdown = getElementFromCSS(page, 'data-qa', 'months');
+        this.yearsDropdown = getElementFromCSS(page, 'data-qa', 'years');
+        this.zipcodeField = getElementFromCSS(page, 'data-qa', 'zipcode');
         this.passwordField = page.getByLabel('Password');
         this.firstNameField = page.getByLabel('First name');
         this.lastNameField = page.getByLabel('Last name');
@@ -53,12 +51,12 @@ export class SignUpLoginPage {
 
     }
 
-    async selectTitle(title: 'Mr' | 'Mrs'): Promise<ReturnType<Page['locator']>> {
-        return this.utils.getElementFromCSS('value', title);
+    async selectTitle(title: 'Mr' | 'Mrs'): Promise<Locator> {
+        return getElementFromCSS(this.page, 'value', title);
     }
 
 
     async loginAsJaneDoe() {
-        await this.utils.login(creds.janeDoe.username, creds.janeDoe.password);
+        await login(this.page, creds.janeDoe.username, creds.janeDoe.password);
     }
 }

@@ -70,7 +70,7 @@ test('Click a product opens the correct product detail page', async ({ homePage 
         .toContainText(PRODUCT_DETAILS.availability, { timeout: 10000 });
     await expect(productsPage.productCondition)
         .toContainText(PRODUCT_DETAILS.condition, { timeout: 10000 });
-    await expect(productsPage.productCondition)
+    await expect(productsPage.productBrand)
         .toContainText(PRODUCT_DETAILS.brand, { timeout: 10000 });
 });
 
@@ -91,7 +91,8 @@ test('Add to cart from product detail page', async ({ homePage }) => {
 test('Add to cart from product listing page', async ({ homePage }) => {
     await productsPage.goToProductsTab();
     const product = await productsPage.getProductCardByName(PRODUCT_DETAILS.productName);
-    await product.getByText('Add to cart').click({ force: true });
+    await product.hover();
+    await product.locator('.overlay-content').getByText('Add to cart').click();
     await expect(productsPage.addedToCartSuccessMessage).toBeVisible({ timeout: 10000 });
     await productsPage.continueShoppingButton.click();
 })
