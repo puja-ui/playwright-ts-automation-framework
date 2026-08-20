@@ -10,7 +10,7 @@ export const SIGNUP_LOGIN_DATA = {
     errorTexts: {
         noAtinEmail: "Please include an '@' in the email address. 'janedoe' is missing an '@'.",
         emailAlreadyExists: 'Email Address already exist!',
-        emptyField: 'Please fill in this field.'
+        emptyField: 'Please fill out this field.'
     }
 };
 export const PAGE_NAMES = {
