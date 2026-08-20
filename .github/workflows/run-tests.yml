@@ -1,7 +1,6 @@
 name: Run All Playwright Tests
 on:
   workflow_dispatch:
-  workflow_dispatch:
 
 jobs:
   execute-tests:
