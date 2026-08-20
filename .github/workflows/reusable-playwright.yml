@@ -1,0 +1,42 @@
+name: Reusable Playwright Workflow
+on:
+  workflow_call:
+    inputs:
+      test_file:
+        required: true
+        type: string
+        description: 'The specific test file to run'
+      test_name:
+        required: true
+        type: string
+        description: 'A sanitized name for the artifact'
+
+jobs:
+  playwright-test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+        
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+
+    - name: Run Playwright tests
+      # We use xvfb-run because the config has headless: false
+      # and the CI runner does not have a real display.
+      run: xvfb-run npx playwright test ${{ inputs.test_file }}
+
+    - name: Upload Report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report-${{ inputs.test_name }}
+        path: playwright-report/
+        retention-days: 7

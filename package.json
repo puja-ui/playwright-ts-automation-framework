@@ -2,7 +2,11 @@
   "name": "playwrite-project",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:all:headed": "npx playwright test --workers=1 --headed --trace on",
+    "test:file:headed": "npx playwright test tests/cart/cart.spec.ts --headed --trace on",
+    "test:all:headless": "npx playwright test --workers=1"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

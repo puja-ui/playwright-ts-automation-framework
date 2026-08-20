@@ -1,0 +1,24 @@
+name: Run All Playwright Tests
+on:
+  workflow_dispatch:
+  workflow_dispatch:
+
+jobs:
+  execute-tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - file: tests/auth/login.spec.ts
+            name: login
+          - file: tests/cart/cart.spec.ts
+            name: cart
+          - file: tests/checkout/checkout.spec.ts
+            name: checkout
+          - file: tests/products/products.spec.ts
+            name: products
+
+    uses: ./.github/workflows/reusable-playwright.yml
+    with:
+      test_file: ${{ matrix.file }}
+      test_name: ${{ matrix.name }}
