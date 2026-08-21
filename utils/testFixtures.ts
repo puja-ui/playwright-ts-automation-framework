@@ -58,12 +58,32 @@ ${cleanHtml}
 Analyze the DOM and suggest the correct, most resilient Playwright CSS or XPath locator to use instead. 
 Return ONLY a JSON object in this format: { "oldLocator": "...", "newLocator": "...", "reason": "..." }
 `;
-                const response = await ai.models.generateContent({
-                    model: 'gemini-2.5-flash',
-                    contents: prompt,
-                });
-
-                fs.appendFileSync('ai-locator-suggestions.log', `\n--- [${new Date().toISOString()}] Test Failed: ${testInfo.title} ---\nError: ${errorMessage}\n\nAI Suggestion:\n${response.text}\n`);
+                let responseText = '';
+                let maxRetries = 3;
+                
+                for (let i = 0; i < maxRetries; i++) {
+                    try {
+                        const response = await ai.models.generateContent({
+                            model: 'gemini-2.5-flash',
+                            contents: prompt,
+                        });
+                        responseText = response.text ?? '';
+                        break; // Success! Break out of the loop
+                    } catch (err: any) {
+                        const errString = err instanceof Error ? err.message : String(err);
+                        // If it's a 429 Rate Limit Error and we have retries left
+                        if (errString.includes('429') && i < maxRetries - 1) {
+                            console.log(`\n⏳ AI Rate Limit (429) hit for '${testInfo.title}'. Waiting 20 seconds before retrying... (${maxRetries - i - 1} retries left)`);
+                            // Wait for 20 seconds
+                            await new Promise(resolve => setTimeout(resolve, 20000));
+                        } else {
+                            // If it's a different error (like 401 Auth) or we ran out of retries, throw it to outer catch
+                            throw err; 
+                        }
+                    }
+                }
+                
+                fs.appendFileSync('ai-locator-suggestions.log', `\n--- [${new Date().toISOString()}] Test Failed: ${testInfo.title} ---\nError: ${errorMessage}\n\nAI Suggestion:\n${responseText}\n`);
                 console.log('✅ AI Self-Healing Suggestion saved to ai-locator-suggestions.log');
             } catch (e) {
                 const aiError = e instanceof Error ? e.message : String(e);
