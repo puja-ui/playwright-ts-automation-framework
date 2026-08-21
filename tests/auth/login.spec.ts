@@ -17,7 +17,8 @@ test('Sign up with wrong email', async ({ signupPage }) => {
     const validationMessage = await signUpLoginPage.emailField.evaluate(
         (el: HTMLInputElement) => el.validationMessage
     );
-    expect(validationMessage).toBe(SIGNUP_LOGIN_DATA.errorTexts.noAtinEmail);
+    // expect(validationMessage).toBe(SIGNUP_LOGIN_DATA.errorTexts.noAtinEmail);
+    await expect(signUpLoginPage.page.getByText('BROKEN_LOCATOR_LOGIN_1')).toBeVisible({ timeout: 3000 });
 });
 
 test('Sign up with existing email', async ({ signupPage }) => {
@@ -25,7 +26,8 @@ test('Sign up with existing email', async ({ signupPage }) => {
     await signUpLoginPage.emailField.fill(SIGNUP_LOGIN_DATA.fieldValues.existingEmail);
     await signUpLoginPage.signUpButton.click();
 
-    await expect(signUpLoginPage.existingEmailError).toHaveText(SIGNUP_LOGIN_DATA.errorTexts.emailAlreadyExists, { timeout: 5000 });
+    // await expect(signUpLoginPage.existingEmailError).toHaveText(SIGNUP_LOGIN_DATA.errorTexts.emailAlreadyExists, { timeout: 5000 });
+    await expect(signUpLoginPage.page.getByText('BROKEN_LOCATOR_LOGIN_2')).toBeVisible({ timeout: 3000 });
 });
 
 test('Mandatory field Validations', async ({ signupPage }) => {
@@ -44,7 +46,8 @@ test('Sign up happy flow', async ({ signupPage }) => {
     await signUpLoginPage.emailField.fill(faker.internet.email());
     await signUpLoginPage.signUpButton.click();
 
-    await signUpLoginPage.enterAccountInfoHeader.waitFor({ state: 'visible', timeout: 5000 });
+    // await signUpLoginPage.enterAccountInfoHeader.waitFor({ state: 'visible', timeout: 5000 });
+    await expect(signUpLoginPage.page.getByText('BROKEN_LOCATOR_LOGIN_3')).toBeVisible({ timeout: 3000 });
     await (await signUpLoginPage.selectTitle('Mrs')).click();
     await signUpLoginPage.passwordField.fill(SIGNUP_LOGIN_DATA.fieldValues.password);
     await signUpLoginPage.daysDropdown.selectOption(faker.number.int({ min: 1, max: 28 }).toString());

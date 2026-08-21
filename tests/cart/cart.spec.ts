@@ -34,8 +34,9 @@ test('Add single product to cart — verify it appears', async ({ homePage }) =>
    await cartPage.addToCardFromlistingPage(PRODUCT_DETAILS.productName);
 
    await cartPage.goToCartTab();
-   await expect(await cartPage.getCartItemByName(PRODUCT_DETAILS.productName))
-      .toBeVisible({ timeout: 10000 });
+   // await expect(await cartPage.getCartItemByName(PRODUCT_DETAILS.productName))
+   //    .toBeVisible({ timeout: 10000 });
+   await expect(cartPage.page.getByText('BROKEN_LOCATOR_CART_1')).toBeVisible({ timeout: 3000 });
 });
 
 test('Add multiple products — verify count, proceed to checkout', async ({ homePage }) => {
@@ -53,7 +54,8 @@ test('Add multiple products — verify count, proceed to checkout', async ({ hom
       await expect ( (await cartPage.getCartItemByName(PRODUCTS[2]))
          .locator('.cart_quantity')).toHaveText('1');
 
-      await expect(cartPage.proceedToCheckoutButton).toBeVisible({ timeout: 10000 });
+      // await expect(cartPage.proceedToCheckoutButton).toBeVisible({ timeout: 10000 });
+      await expect(cartPage.page.getByText('BROKEN_LOCATOR_CART_2')).toBeVisible({ timeout: 3000 });
 });
 
 test('Remove product from cart — verify it disappears', async ({ homePage }) => {

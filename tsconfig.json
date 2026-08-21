@@ -50,7 +50,11 @@
     "strict": true,                              /* Enable all strict type-checking options */
     "esModuleInterop": true,                     /* Enables emit interoperability */
     "skipLibCheck": true,                        /* Skip type checking of declaration files */
-    "forceConsistentCasingInFileNames": true     /* Disallow inconsistently-cased references */
+    "forceConsistentCasingInFileNames": true,    /* Disallow inconsistently-cased references */
+    "baseUrl": ".",                              /* Base directory for paths */
+    "paths": {
+      "auto-playwright": ["node_modules/auto-playwright/dist/index.js"]
+    }
   },
   "include": ["tests/**/*.ts", "pages/**/*.ts"]  /* Ensure your test and page folders are tracked */
 }
