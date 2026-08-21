@@ -31,6 +31,8 @@ jobs:
     - name: Run Playwright tests
       # We use xvfb-run because the config has headless: false
       # and the CI runner does not have a real display.
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       run: xvfb-run npx playwright test ${{ inputs.test_file }}
 
     - name: Upload Report
