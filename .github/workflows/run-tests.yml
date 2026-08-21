@@ -21,3 +21,4 @@ jobs:
     with:
       test_file: ${{ matrix.file }}
       test_name: ${{ matrix.name }}
+    secrets: inherit
