@@ -83,12 +83,13 @@ Return ONLY a JSON object in this format: { "oldLocator": "...", "newLocator": "
                     }
                 }
                 
-                fs.appendFileSync('ai-locator-suggestions.log', `\n--- [${new Date().toISOString()}] Test Failed: ${testInfo.title} ---\nError: ${errorMessage}\n\nAI Suggestion:\n${responseText}\n`);
-                console.log('✅ AI Self-Healing Suggestion saved to ai-locator-suggestions.log');
+                if (responseText) {
+                    fs.appendFileSync('ai-locator-suggestions.log', `\n--- [${new Date().toISOString()}] Test Failed: ${testInfo.title} ---\nError: ${errorMessage}\n\nAI Suggestion:\n${responseText}\n`);
+                    console.log('✅ AI Self-Healing Suggestion saved to ai-locator-suggestions.log');
+                }
             } catch (e) {
                 const aiError = e instanceof Error ? e.message : String(e);
                 console.error('❌ AI Healing failed:', aiError);
-                fs.appendFileSync('ai-locator-suggestions.log', `\n--- [${new Date().toISOString()}] Test Failed: ${testInfo.title} ---\nError: ${errorMessage}\n\n❌ AI Healing Request Failed:\n${aiError}\n`);
             }
         }
     }, { auto: true }]
