@@ -26,11 +26,18 @@ export default defineConfig({
   reporter: [
     ['html'],
     ['playwright-qase-reporter', {
-      apiToken: process.env.QASE_API_TOKEN,
-      projectCode: process.env.QASE_PROJECT_CODE,
-      runComplete: true,
-      logging: true,
-      uploadAttachments: true,
+      mode: 'testops',
+      debug: true,
+      testops: {
+        api: {
+          token: process.env.QASE_API_TOKEN,
+        },
+        project: process.env.QASE_PROJECT_CODE,
+        uploadAttachments: true,
+        run: {
+          complete: true,
+        },
+      },
     }]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
