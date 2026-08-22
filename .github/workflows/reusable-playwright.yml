@@ -48,6 +48,6 @@ jobs:
       if: failure()
       with:
         name: ai-suggestions-${{ inputs.test_name }}
-        path: ai-locator-suggestions.log
+        path: ai-locator-suggestions.md
         retention-days: 7
         if-no-files-found: ignore

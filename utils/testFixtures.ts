@@ -56,7 +56,7 @@ Here is the current HTML DOM of the page:
 ${cleanHtml}
 
 Analyze the DOM and suggest the correct, most resilient Playwright CSS or XPath locator to use instead. 
-Return ONLY a JSON object in this format: { "oldLocator": "...", "newLocator": "...", "reason": "..." }
+Return ONLY a JSON object in this format: { "oldLocator": "...", "newLocator": "...", "reason": "...", "filePath": "...", "testFileName": "...", "testCaseName": "..." }
 `;
                 let responseText = '';
                 let maxRetries = 3;
@@ -73,9 +73,9 @@ Return ONLY a JSON object in this format: { "oldLocator": "...", "newLocator": "
                         const errString = err instanceof Error ? err.message : String(err);
                         // If it's a 429 Rate Limit Error and we have retries left
                         if (errString.includes('429') && i < maxRetries - 1) {
-                            console.log(`\n⏳ AI Rate Limit (429) hit for '${testInfo.title}'. Waiting 20 seconds before retrying... (${maxRetries - i - 1} retries left)`);
-                            // Wait for 20 seconds
-                            await new Promise(resolve => setTimeout(resolve, 20000));
+                            console.log(`\n⏳ AI Rate Limit (429) hit for '${testInfo.title}'. Waiting 30 seconds before retrying... (${maxRetries - i - 1} retries left)`);
+                            // Wait for 30 seconds
+                            await new Promise(resolve => setTimeout(resolve, 30000));
                         } else {
                             // If it's a different error (like 401 Auth) or we ran out of retries, throw it to outer catch
                             throw err; 
@@ -84,8 +84,37 @@ Return ONLY a JSON object in this format: { "oldLocator": "...", "newLocator": "
                 }
                 
                 if (responseText) {
-                    fs.appendFileSync('ai-locator-suggestions.log', `\n--- [${new Date().toISOString()}] Test Failed: ${testInfo.title} ---\nError: ${errorMessage}\n\nAI Suggestion:\n${responseText}\n`);
-                    console.log('✅ AI Self-Healing Suggestion saved to ai-locator-suggestions.log');
+                    let formattedSuggestion = responseText;
+                    try {
+                        // Extract JSON from markdown block if Gemini wraps it
+                        const jsonMatch = responseText.match(/```json\n([\s\S]*?)\n```/) || responseText.match(/{[\s\S]*}/);
+                        const jsonStr = jsonMatch ? (jsonMatch[1] || jsonMatch[0]) : responseText;
+                        const obj = JSON.parse(jsonStr);
+                        
+                        formattedSuggestion = `
+\`\`\`diff
+- Old Broken Locator
+- ${obj.oldLocator}
+
++ New Suggested Locator
++ ${obj.newLocator}
+\`\`\`
+
+**Reasoning:**
+> ${obj.reason}
+
+**File:** ${obj.filePath}
+
+**Test File:** ${obj.testFileName}
+
+**Test Case:** ${obj.testCaseName}
+`;
+                    } catch (parseError) {
+                        // Fallback if JSON parsing fails
+                    }
+
+                    fs.appendFileSync('ai-locator-suggestions.md', `\n### ❌ Test Failed: ${testInfo.title}\n**Date:** ${new Date().toISOString()}\n**Error:** \`${errorMessage}\`\n\n#### 🤖 AI Fix:\n${formattedSuggestion}\n---\n`);
+                    console.log('✅ AI Self-Healing Suggestion saved to ai-locator-suggestions.md');
                 }
             } catch (e) {
                 const aiError = e instanceof Error ? e.message : String(e);
@@ -96,6 +125,3 @@ Return ONLY a JSON object in this format: { "oldLocator": "...", "newLocator": "
 })
 
 export { test, expect }
-
-//https://automationexercise.com/
-///for automation project
