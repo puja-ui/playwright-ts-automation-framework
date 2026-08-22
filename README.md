@@ -7,11 +7,11 @@ A modern, scalable end-to-end testing framework built with [Playwright](https://
 <table>
   <tr>
     <td><img width="1226" height="606" alt="image" src="https://github.com/user-attachments/assets/136e8585-0850-4e8f-a022-d088b9169d6d" /></td>
-    <td><img width="1418" height="791" alt="image" src="https://github.com/user-attachments/assets/fe3f0146-1e2b-4b54-906f-7ecd2e0bbb81" /></td>
+    <td><img width="1418" height="791" alt="image" src="https://github.com/user-attachments/assets/a70a17f8-6956-4a52-97ca-e4bc48e696fd" /></td>
   </tr>
   <tr>
+    <td><img width="1418" height="791" alt="image" src="https://github.com/user-attachments/assets/fe3f0146-1e2b-4b54-906f-7ecd2e0bbb81" /></td>
     <td><img width="1418" height="791" alt="image" src="https://github.com/user-attachments/assets/6f92933c-5be2-438b-8464-3c141641b350" /></td>
-    <td><img width="1418" height="791" alt="image" src="https://github.com/user-attachments/assets/a70a17f8-6956-4a52-97ca-e4bc48e696fd" /></td>
   </tr>
 </table>
 
