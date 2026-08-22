@@ -34,10 +34,12 @@ const test = base.extend<AuthFixtures>({
         // Setup: Run the test
         await use();
 
-        // Teardown: If the test failed, run AI Healing
-        if (testInfo.status === 'failed' && testInfo.error) {
+        // Teardown: If the test failed, run AI Healing (only on the final retry attempt)
+        if (testInfo.status === 'failed' && testInfo.error && testInfo.retry === testInfo.project.retries) {
             console.log(`\n🤖 AI Self-Healing Triggered for: ${testInfo.title}`);
-            const errorMessage = testInfo.error.message;
+            
+            // Strip ANSI escape codes (colors) from the Playwright error message
+            const errorMessage = (testInfo.error.message || '').replace(/\x1B\[[0-9;]*[a-zA-Z]/g, '');
 
             try {
                 // Get page HTML and clean it to save tokens
