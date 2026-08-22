@@ -58,7 +58,7 @@ Here is the current HTML DOM of the page:
 ${cleanHtml}
 
 Analyze the DOM and suggest the correct, most resilient Playwright CSS or XPath locator to use instead. 
-Return ONLY a JSON object in this format: { "oldLocator": "...", "newLocator": "...", "reason": "...", "filePath": "...", "testFileName": "...", "testCaseName": "..." }
+Return ONLY a JSON object in this format: { "oldLocator": "...", "newLocator": "...", "reason": "..." }
 `;
                 let responseText = '';
                 let maxRetries = 3;
@@ -105,11 +105,9 @@ Return ONLY a JSON object in this format: { "oldLocator": "...", "newLocator": "
 **Reasoning:**
 > ${obj.reason}
 
-**File:** ${obj.filePath}
+**Test File:** \`${testInfo.file}\`
 
-**Test File:** ${obj.testFileName}
-
-**Test Case:** ${obj.testCaseName}
+**Test Case:** \`${testInfo.title}\`
 `;
                     } catch (parseError) {
                         // Fallback if JSON parsing fails
